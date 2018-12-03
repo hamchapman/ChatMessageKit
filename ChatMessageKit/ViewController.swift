@@ -1,11 +1,3 @@
-//
-//  ViewController.swift
-//  ChatMessageKit
-//
-//  Created by Hamilton Chapman on 30/11/2018.
-//  Copyright © 2018 Hamilton Chapman. All rights reserved.
-//
-
 import UIKit
 import PusherChatkit
 import MessageKit
@@ -26,9 +18,9 @@ class ViewController: MessagesViewController {
         messageInputBar.delegate = self
 
         chatManager = ChatManager(
-            instanceLocator: "v1:us1:276f579b-eafc-4024-b408-f0905fb9cd3e",
-            tokenProvider: PCTokenProvider(url: "https://us1.pusherplatform.io/services/chatkit_token_provider/v1/276f579b-eafc-4024-b408-f0905fb9cd3e/token"),
-            userID: "luis"
+            instanceLocator: "YOUR_INSTANCE_LOCATOR",
+            tokenProvider: PCTokenProvider(url: "YOUR_TOKEN_PROVIDER_URL"),
+            userID: "YOUR_USER_ID"
         )
 
         chatManager.connect(delegate: self) { cU, err in
@@ -107,10 +99,19 @@ extension ViewController: PCRoomDelegate {
     }
 
     func onMessage(_ message: PCMessage) {
+        print("Received message: \(message.id)")
         messages.append(message)
         DispatchQueue.main.async {
             self.messagesCollectionView.reloadData()
         }
+    }
+
+    func onUserStartedTyping(user: PCUser) {
+        print("User started typing: \(user.id)")
+    }
+
+    func onUserStoppedTyping(user: PCUser) {
+        print("User stopped typing: \(user.id)")
     }
 }
 
